@@ -1,6 +1,6 @@
 //INSTALAR LA LIBRERIRA MYSQLCONNECTOR 
 //     https://downloads.mysql.com/archives/c-j/
-
+// DENTRO DE LA INTERFAZ
 
 import com.mysql.cj.jdbc.Driver;
 import java.sql.Connection;
@@ -8,9 +8,7 @@ import javax.swing.JOptionPane;
 import java.sql.DriverManager;
 
 
-public class Conexion {
-        
-         Connection con=null;
+ Connection con;
         
         
         String user= "root";
@@ -22,8 +20,8 @@ public class Conexion {
        String cadena="jdbc:mysql://"+ip+":"+port+"/"+database;
        
        
-       public Connection establecerConcexion(){
-           
+       public void Connection(){
+           con=null;
            try {
                
                Class.forName("com.mysql.cj.jdbc.Driver");
@@ -33,7 +31,5 @@ public class Conexion {
            } catch (Exception e){
                JOptionPane.showMessageDialog(null, "Error al conectarse a la base de datos, error: "+ e.toString());
            }
-           return con;
        }
-        
-}
+

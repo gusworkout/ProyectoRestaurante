@@ -12,7 +12,7 @@ public class Conexion {
         
          Connection con=null;
         
-        String driver = "com.mysql.jdbc.Driver";
+        
         String user= "root";
         String password="";
         String port="3306";
@@ -26,7 +26,7 @@ public class Conexion {
            
            try {
                
-               Class.forName("driver");
+               Class.forName("com.mysql.cj.jdbc.Driver");
                con  = DriverManager.getConnection(cadena ,user, password);
                JOptionPane.showMessageDialog(null, "La conexion fue exitosa");
                

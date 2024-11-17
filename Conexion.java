@@ -31,7 +31,7 @@ import java.sql.ResultSet;
                
                Class.forName("com.mysql.cj.jdbc.Driver");
                con  = DriverManager.getConnection(cadena ,user, password);
-               JOptionPane.showMessageDialog(null, "La conexion fue exitosa");
+              
                
            } catch (Exception e){
                JOptionPane.showMessageDialog(null, "Error al conectarse a la base de datos, error: "+ e.toString());
@@ -43,13 +43,13 @@ import java.sql.ResultSet;
 
 private void CrearButton(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-           Connection con;
+          
 
     try {
-        con = DriverManager.getConnection(cadena ,user, password);
-        ps = con.prepareStatement("INSERT INTO persona (clave, nombre) VALUES(?,?) ");
-        ps.setString(1, jTextField1.getText());
-        ps.setString(2, jTextField2.getText());
+        conex();
+        ps = conex().prepareStatement("INSERT INTO usuarios (username, password) VALUES(?,?) ");
+        ps.setString(2, txtClave.getText());
+        ps.setString(1, txtNombre.getText());
  
 
         int res = ps.executeUpdate();
@@ -63,7 +63,7 @@ private void CrearButton(java.awt.event.ActionEvent evt) {
         con.close();
 
     } catch (Exception e) {
-        System.err.println(e);
+        JOptionPane.showMessageDialog(null, "Error" + e);
     }
 
      
@@ -124,5 +124,42 @@ private void eliminar(java.awt.event.ActionEvent evt) {
     }  catch (Exception e) {
         System.err.println(e);
     }
-    }  
+    }
+
+
+//INICIAR SESION
+String user = txtNombre.getText();
+        String password = txtClave.getText();
+        
+        
+        try{
+            String usuarioCorrecto = null;
+            String passwordCorrecta = null;
+            
+            conex();
+            
+            ps=conex().prepareStatement("SELECT username, password FROM usuarios WHERE username = ?" );
+            ps.setString(1, user);
+            rs=ps.executeQuery();
+            
+            // Solo se obtiene el primer registro (Si existe)
+        if (rs.next()) {
+            usuarioCorrecto = rs.getString(1);
+            passwordCorrecta = rs.getString(2);
+           
+        }
+            
+            if (usuarioCorrecto !=null && password!=null && password.equals(passwordCorrecta)) {
+        
+                menu mn = new menu();
+                this.setVisible(false);
+                mn.setVisible(true);
+            }  else {
+                
+        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+    }
+            
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Error " + e);
+        }
 
